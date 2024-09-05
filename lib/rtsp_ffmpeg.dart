@@ -84,10 +84,32 @@ class _RtspFFMpegState extends State<RtspFFMpeg> {
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      return AndroidView(
-        viewType: 'rtsp_ffmpeg',
-        onPlatformViewCreated: _onPlatformViewCreated,
-      );
+      try {
+        return AndroidView(
+          viewType: 'rtsp_ffmpeg',
+          onPlatformViewCreated: _onPlatformViewCreated,
+        );
+      } on PlatformException catch (e) {
+        print('PlatformException caught: ${e.message}');
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.red,
+          child: Center(
+            child: Text('PlatformException плеера'),
+          ),
+        );
+      } catch (e) {
+        print(' caught: ${e}');
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.amber,
+          child: Center(
+            child: Text('Другая ошибка плеера'),
+          ),
+        );
+      }
     } else {
       return Text('$defaultTargetPlatform is not yet supported by the plugin');
     }

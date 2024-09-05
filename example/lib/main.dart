@@ -21,37 +21,40 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: GestureDetector(
-          child: RtspFFMpeg(
-            createdCallback: (controller) async {
-              final streamWatchdogPrinter = Timer.periodic(
-                  const Duration(milliseconds: 100),
-                  (timer) =>
-                      print("Stream is alive: ${controller.isStreamAlive}"));
-
-              final rtsp = 'rtsp://10.110.11.29:8554/test';
-              await controller.play(rtsp);
-              controller.streamAliveWatcher.listen((bool alive) async {
-                if (alive) {
-                  print("Stream is alive again");
-                } else {
-                  print("Stream is dead. Restarting...");
-                  await controller.stop();
-                  await controller.play(rtsp);
-                }
-              });
-
-              // await controller.play('rtsp://192.168.65.122:8554/test');
-            },
+          appBar: AppBar(
+            title: const Text('Plugin example app'),
           ),
-        ),
-          bottomSheet: TextButton(child: Text("PRESS COUNTER $counter"), onPressed: () {setState(() {
-            ++counter;
-          });})
-      ),
+          body: GestureDetector(
+            child: RtspFFMpeg(
+              createdCallback: (controller) async {
+                final streamWatchdogPrinter = Timer.periodic(
+                    const Duration(milliseconds: 100),
+                    (timer) =>
+                        print("Stream is alive: ${controller.isStreamAlive}"));
+
+                final rtsp = 'rtsp://192.168.144.13:8554/operator/h264/720p';
+                await controller.play(rtsp);
+                controller.streamAliveWatcher.listen((bool alive) async {
+                  if (alive) {
+                    print("Stream is alive again");
+                  } else {
+                    print("Stream is dead. Restarting...");
+                    await controller.stop();
+                    await controller.play(rtsp);
+                  }
+                });
+
+                // await controller.play('rtsp://192.168.65.122:8554/test');
+              },
+            ),
+          ),
+          bottomSheet: TextButton(
+              child: Text("PRESS COUNTER $counter"),
+              onPressed: () {
+                setState(() {
+                  ++counter;
+                });
+              })),
     );
   }
 }
