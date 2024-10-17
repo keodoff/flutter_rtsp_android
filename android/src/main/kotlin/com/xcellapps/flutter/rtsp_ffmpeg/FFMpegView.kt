@@ -18,16 +18,25 @@ class FFMpegView internal constructor(context: Context?, messenger: BinaryMessen
     private val rtspClient = RtspClient(NativeCallback { frame, nChannel, width, height ->})
     init {
         playerView.holder.addCallback(object : SurfaceHolder.Callback {
-            override fun surfaceChanged(p0: SurfaceHolder?, p1: Int, p2: Int, p3: Int) {
-                p0?.let {
-                    rtspClient.setHolder(it.surface, p1, p2)
+
+
+            override fun surfaceCreated(holder: SurfaceHolder) {
+                TODO("Not yet implemented")
+            }
+
+            override fun surfaceChanged(
+                holder: SurfaceHolder,
+                format: Int,
+                width: Int,
+                height: Int
+            ) {
+                holder?.let {
+                    rtspClient.setHolder(it.surface, width, height)
                 }
             }
 
-            override fun surfaceDestroyed(p0: SurfaceHolder?) {
-            }
-
-            override fun surfaceCreated(p0: SurfaceHolder?) {
+            override fun surfaceDestroyed(holder: SurfaceHolder) {
+                TODO("Not yet implemented")
             }
 
         })
