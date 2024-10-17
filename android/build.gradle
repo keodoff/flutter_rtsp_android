@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
-
+    namespace ="com.xcellapps.flutter.rtsp_ffmpeg"
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
